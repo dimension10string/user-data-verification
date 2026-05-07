@@ -2,88 +2,32 @@ import streamlit as st
 import time
 
 # --- Page Configuration ---
-st.set_page_config(page_title="Authorized Access Only", page_icon="🔒", layout="wide")
+st.set_page_config(page_title="Internal Data Portal", page_icon="🔒", layout="wide")
 
-# --- Custom Styling ---
-def local_css():
-    # Replace the URL below with your preferred background image (e.g., a beach or a photo of you two)
-    bg_img = "https://images.unsplash.com/photo-1544918877-460635b6d13e?q=80&w=2070&auto=format&fit=crop"
-    
-    st.markdown(f"""
-        <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Montserrat:wght@200;400&display=swap');
-
-        /* Full Page Background Image */
-        .stApp {{
-            background-image: url("{bg_img}");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }}
-
-        /* Hide Streamlit UI */
-        #MainMenu {{visibility: hidden;}}
-        footer {{visibility: hidden;}}
-        header {{visibility: hidden;}}
-        .stDeployButton {{display:none;}}
-
-        /* Glassmorphism Container for the Content */
-        .glass-card {{
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 40px 20px;
-            margin-top: 50px;
-            text-align: center;
-        }}
-
-        /* The Birthday Header */
-        .birthday-text {{
-            font-family: 'Pinyon Script', cursive !important;
-            color: #ffffff !important; /* White looks better on a photo bg */
-            text-align: center !important;
-            font-size: clamp(50px, 12vw, 90px) !important; 
-            line-height: 1.1 !important;
-            margin: 20px 0 !important;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-        }}
-
-        /* The Letter Box */
-        .personal-wish {{
-            font-family: 'Montserrat', sans-serif !important;
-            font-size: clamp(16px, 4vw, 20px) !important;
-            text-align: center !important;
-            color: #ffffff !important;
-            line-height: 1.7 !important;
-            margin: 0 auto !important;
-            max-width: 90% !important;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-        }}
-
-        /* Login Form Styling */
-        .stForm {{
-            background: rgba(255, 255, 255, 0.9) !important;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 400px;
-            margin: 100px auto 0 auto;
-        }}
-        </style>
-    """, unsafe_allow_html=True)
-
+# --- State Management ---
 if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 
+# --- Logic Flow ---
+
 if not st.session_state.authenticated:
-    local_css()
-    # Keep the login screen clean and focused
+    # 1. THE BORING LOGIN PAGE (Plain White)
+    st.markdown("""
+        <style>
+        .stApp { background-color: white !important; }
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        </style>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("<h3 style='text-align: center; font-family: Arial; color: #333; padding-top: 100px;'>Family Cloud: Archive Sync</h3>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #666;'>Enter credentials to proceed to data visualization.</p>", unsafe_allow_html=True)
+
     with st.form("login_form"):
-        st.markdown("<h3 style='text-align: center; color: #333;'>Security Verification</h3>", unsafe_allow_html=True)
         u_name = st.text_input("User ID")
-        u_token = st.text_input("Access Token")
-        submitted = st.form_submit_button("Authorize")
+        u_token = st.text_input("Access Token (Memory)")
+        submitted = st.form_submit_button("Verify Identity")
         
         if submitted:
             if u_name.strip() != "" and "cayman" in u_token.lower():
@@ -92,26 +36,94 @@ if not st.session_state.authenticated:
                     st.session_state.authenticated = True
                     st.rerun()
             else:
-                st.error("Authentication Error.")
+                st.error("Invalid Credentials.")
 
 else:
-    local_css()
+    # 2. THE REVEAL PAGE (Background + Picture + Large Font)
+    
+    # SETUP: Replace these two URLs
+    # bg_url: The full page background (Beach/Ocean)
+    # main_pic_url: The specific photo you want to show her (You two/Her)
+    bg_url = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop"
+    main_pic_url = "https://images.unsplash.com/photo-1544918877-460635b6d13e?q=80&w=2070&auto=format&fit=crop"
+
+    st.markdown(f"""
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Montserrat:wght@200;400&display=swap');
+
+        /* Background image only triggers AFTER login */
+        .stApp {{
+            background-image: url("{bg_url}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+
+        /* Hide Streamlit Clutter */
+        #MainMenu {{visibility: hidden;}}
+        footer {{visibility: hidden;}}
+        header {{visibility: hidden;}}
+        .stDeployButton {{display:none;}}
+
+        /* Full Width Main Picture (Centered, No Rounding) */
+        .img-container {{
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: -80px;
+        }}
+        .hero-image {{
+            width: 100vw !important;
+            max-width: 100vw !important;
+            height: auto;
+            border: none;
+        }}
+
+        /* Birthday Header (Large & Responsive) */
+        .birthday-text {{
+            font-family: 'Pinyon Script', cursive !important;
+            color: white !important;
+            text-align: center !important;
+            font-size: clamp(60px, 15vw, 120px) !important; 
+            line-height: 1 !important;
+            margin-top: 20px !important;
+            text-shadow: 2px 4px 10px rgba(0,0,0,0.4);
+        }}
+
+        /* Glass Letter Box */
+        .glass-card {{
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 0px;
+            padding: 40px 20px;
+            margin: 20px 0;
+            color: white;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+        }}
+        </style>
+    """, unsafe_allow_html=True)
+
+    # Effects
     st.snow()
     st.balloons()
 
-    # Using a transparent 'Glass' container to hold the text over the background image
+    # Layout
     st.markdown(f'''
+        <div class="img-container">
+            <img src="{main_pic_url}" class="hero-image">
+        </div>
+        <div class="birthday-text">Happy Birthday, [Wife's Name]</div>
         <div class="glass-card">
-            <p style="letter-spacing: 4px; font-size: 11px; text-transform: uppercase; color: #ffffff; margin-bottom: 10px; opacity: 0.8;">A Dedicated Message</p>
-            <div class="birthday-text">Happy Birthday, [Wife's Name]</div>
-            <div class="personal-wish">
-                <br>
-                <i style="font-size: 24px;">My Dearest [Wife's Name],</i> <br><br>
+            <i style="font-size: 26px;">My Dearest [Wife's Name],</i><br><br>
+            <span style="font-size: 18px; line-height: 1.8;">
                 I built this corner of the internet to remind you how deeply you are loved. 
-                You make every ordinary day feel extraordinary. <br><br>
-                May your day be as serene as a Cayman sunrise. <br><br>
-                <b style="color: #e0f7fa;">Your surprise is waiting for you in the kitchen.</b><br><br>
-                <span style="font-size: 32px; font-family: 'Pinyon Script';">Love, [Your Name]</span>
-            </div>
+                You make every ordinary day feel extraordinary.<br><br>
+                May your day be as serene as a Cayman sunrise.<br><br>
+                <b style="font-size: 20px; color: #e0f7fa;">Your surprise is waiting for you in the kitchen.</b>
+            </span>
+            <br><br>
+            <span style="font-size: 35px; font-family: 'Pinyon Script';">Love, [Your Name]</span>
         </div>
     ''', unsafe_allow_html=True)
