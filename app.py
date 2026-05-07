@@ -5,25 +5,28 @@ import time
 #  ✏️  EDIT EVERYTHING IN THIS BLOCK BEFORE DEPLOYING
 # ══════════════════════════════════════════════════════════════════════════════
 
-WIFE_NAME  = "Ashal"       # e.g. "Sophia"
-YOUR_NAME  = "Wakeel"      # e.g. "James"
+WIFE_NAME  = "Her Name"       # e.g. "Sophia"
+YOUR_NAME  = "Your Name"      # e.g. "James"
 
 # Secret 1 → the "Memory Archive Key" field  (she types your vacation spot)
-SECRET_VACATION = "Wakeel"
+SECRET_VACATION = "cayman"
 
 # Secret 2 → the "Personal Passphrase" field
 # Pick something only she knows: pet's name, year you met, first song, etc.
-SECRET_PERSONAL = "ashalwakeel"    # ← Replace this
+SECRET_PERSONAL = "secret"    # ← Replace this
 
 # ── Image file names ────────────────────────────────────────────────────────
-# Upload ALL of these to your GitHub repo, then update the names below.
+# Upload ALL of these to the /static/ folder in your GitHub repo.
 BG_IMAGE   = "bg.jpg"         # Full-page background (beach / sunset works beautifully)
 HERO_IMAGE = "photo1.jpg"     # Main hero photo — landscape orientation preferred
 PHOTO_2    = "photo2.jpg"     # Left photo in the duo grid
 PHOTO_3    = "photo3.jpg"     # Right photo in the duo grid
 
+# ── Music file name ──────────────────────────────────────────────────────────
+# Upload your MP3 to the /static/ folder in your GitHub repo.
+BG_MUSIC   = "song.mp3"       # ← your MP3 filename
+
 # ── Your personal message ───────────────────────────────────────────────────
-# Each variable is one "paragraph" in the letter. Edit freely.
 MSG_1 = "Every single day with you has been the most beautiful accident I never planned for."
 MSG_2 = ("You bring colour to every ordinary Tuesday, warmth to every grey morning, "
          "and laughter to every moment in between. I didn't know a person could make "
@@ -321,8 +324,30 @@ if not st.session_state.authenticated:
 #  R E V E A L   P A G E   (luxury reveal)
 # ─────────────────────────────────────────────────────────────────────────────
 else:
-    # Streamlit balloons (per your request — keeping them, removing snow)
     st.balloons()
+
+    # ── Background music ────────────────────────────────────────────────────
+    # Autoplay works here because the user just clicked the login button,
+    # which counts as a browser user-interaction gesture.
+    st.markdown(f"""
+        <audio id="bg-music" autoplay loop style="display:none">
+            <source src="app/static/{BG_MUSIC}" type="audio/mpeg">
+        </audio>
+        <script>
+        (function() {{
+            var tries = 0;
+            function tryPlay() {{
+                var audio = document.getElementById('bg-music');
+                if (!audio) {{ if (tries++ < 20) setTimeout(tryPlay, 300); return; }}
+                audio.volume = 0.45;
+                audio.play().catch(function() {{
+                    if (tries++ < 10) setTimeout(tryPlay, 500);
+                }});
+            }}
+            setTimeout(tryPlay, 800);
+        }})();
+        </script>
+    """, unsafe_allow_html=True)
 
     st.markdown(f"""
         <style>
@@ -375,7 +400,6 @@ else:
             object-position: center 20%;
             display: block;
         }}
-        /* Scrim: transparent at top, rich black at bottom */
         .hero-scrim {{
             position: absolute;
             inset: 0;
@@ -386,7 +410,6 @@ else:
                 rgba(0,0,0,0.72) 100%
             );
         }}
-        /* Birthday title overlaid on the photo */
         .hero-title-block {{
             position: absolute;
             bottom: 0;
@@ -470,7 +493,6 @@ else:
         .photo-duo-cell:hover img {{
             transform: scale(1.04);
         }}
-        /* Subtle gradient on each cell */
         .photo-duo-cell::after {{
             content: '';
             position: absolute;
@@ -481,7 +503,6 @@ else:
         .photo-duo-cell:hover::after {{
             background: rgba(0,0,0,0.08);
         }}
-        /* Hairline separator between the two photos */
         .photo-duo-sep {{
             position: absolute;
             top: 0; bottom: 0;
@@ -490,7 +511,6 @@ else:
             background: rgba(255,255,255,0.25);
             z-index: 2;
         }}
-        /* Quote overlay positioned over the duo */
         .photo-duo-quote {{
             position: absolute;
             inset: 0;
@@ -581,13 +601,83 @@ else:
             display: block;
             line-height: 1.1;
         }}
+
+        /* ── Floating music indicator ── */
+        .music-pill {{
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 10000;
+            background: rgba(10, 10, 20, 0.72);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 999px;
+            padding: 9px 18px 9px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            user-select: none;
+        }}
+        .music-pill:hover {{
+            background: rgba(20, 20, 40, 0.88);
+            border-color: rgba(255,255,255,0.22);
+        }}
+        .music-bars {{
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 14px;
+        }}
+        .music-bars span {{
+            display: inline-block;
+            width: 3px;
+            border-radius: 2px;
+            background: #ffd700;
+            animation: bar-bounce 0.9s ease-in-out infinite;
+        }}
+        .music-bars span:nth-child(1) {{ height: 6px;  animation-delay: 0.0s; }}
+        .music-bars span:nth-child(2) {{ height: 12px; animation-delay: 0.15s; }}
+        .music-bars span:nth-child(3) {{ height: 8px;  animation-delay: 0.3s; }}
+        .music-bars span:nth-child(4) {{ height: 14px; animation-delay: 0.1s; }}
+        .music-bars span:nth-child(5) {{ height: 5px;  animation-delay: 0.25s; }}
+        @keyframes bar-bounce {{
+            0%, 100% {{ transform: scaleY(1);   }}
+            50%       {{ transform: scaleY(0.35); }}
+        }}
+        .music-pill-label {{
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.55);
+            text-transform: uppercase;
+        }}
+        /* paused state */
+        .music-pill.paused .music-bars span {{
+            animation-play-state: paused;
+            opacity: 0.35;
+        }}
+        .music-pill.paused .music-pill-label {{
+            color: rgba(255,255,255,0.28);
+        }}
         </style>
 
-        <!-- Premium JS confetti (replaces snow entirely) -->
+        <!-- Floating music toggle pill -->
+        <div class="music-pill" id="music-pill" onclick="toggleMusic()">
+            <div class="music-bars">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <span class="music-pill-label" id="music-label">Playing</span>
+        </div>
+
+        <!-- Premium JS confetti -->
         <canvas id="conf-cv"
             style="position:fixed;top:0;left:0;width:100vw;height:100vh;
                    pointer-events:none;z-index:9999;"></canvas>
         <script>
+        /* ── Confetti ── */
         (function(){{
             var cv = document.getElementById('conf-cv');
             if (!cv) return;
@@ -656,6 +746,23 @@ else:
             }}
             setTimeout(tick, 600);
         }})();
+
+        /* ── Music toggle ── */
+        function toggleMusic() {{
+            var audio = document.getElementById('bg-music');
+            var pill  = document.getElementById('music-pill');
+            var label = document.getElementById('music-label');
+            if (!audio) return;
+            if (audio.paused) {{
+                audio.play();
+                pill.classList.remove('paused');
+                label.textContent = 'Playing';
+            }} else {{
+                audio.pause();
+                pill.classList.add('paused');
+                label.textContent = 'Paused';
+            }}
+        }}
         </script>
     """, unsafe_allow_html=True)
 
