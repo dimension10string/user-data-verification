@@ -17,7 +17,7 @@ SECRET_PERSONAL = "ashalwakeel"    # ← Replace this
 
 # ── Image file names ────────────────────────────────────────────────────────
 # Upload ALL of these to your GitHub repo, then update the names below.
-BG_IMAGE   = bg.jpg         # Full-page background (beach / sunset works beautifully)
+BG_IMAGE   = "bg.jpg"         # Full-page background (beach / sunset works beautifully)
 HERO_IMAGE = "photo1.jpg"     # Main hero photo — landscape orientation preferred
 PHOTO_2    = "photo2.jpg"     # Left photo in the duo grid
 PHOTO_3    = "photo3.jpg"     # Right photo in the duo grid
