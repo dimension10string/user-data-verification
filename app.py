@@ -431,7 +431,7 @@ else:
         }}
         .hero-name {{
             font-family: 'Pinyon Script', cursive;
-            color: #ffffff;
+            color: #000000;
             font-size: clamp(62px, 14vw, 130px);
             line-height: 1.0;
             display: block;
@@ -525,7 +525,7 @@ else:
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
             font-size: clamp(14px, 2.8vw, 22px);
-            color: rgba(255,255,255,0.82);
+            color: rgba(0,0,0,0.82);
             text-align: center;
             max-width: 70%;
             line-height: 1.5;
