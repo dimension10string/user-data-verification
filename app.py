@@ -28,8 +28,10 @@ if not st.session_state.authenticated:
     
     with st.form("login_form"):
         u_name = st.text_input("User ID")
-        u_token = st.text_input("Access Token (Memory Identifier)")
-        if st.form_submit_button("Verify Identity"):
+        u_token = st.text_input("Access Token")
+        
+        # When she clicks this button, the browser "unlocks" the ability to play audio
+        if st.form_submit_button("Verify Identity & Sync"):
             if u_name.strip() != "" and "cayman" in u_token.lower():
                 st.session_state.authenticated = True
                 st.rerun()
@@ -43,8 +45,10 @@ else:
     hero_filename = "us.jpg" 
     wife_name = "Her Name"
     your_name = "Your Name"
-    # YouTube ID for Life in Technicolor II (Instrumental-style or Original)
-    video_id = "fXsovfOKUPM" 
+    
+    # Direct high-quality link to Life in Technicolor II (Instrumental-style)
+    # This works better than YouTube for background autoplay
+    audio_url = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" # Placeholder - replace with your direct mp3 link if you have one
 
     st.markdown(f"""
         <style>
@@ -82,21 +86,15 @@ else:
             width: 100vw; margin-left: calc(-50vw + 50%);
             color: white; text-align: center; font-family: 'Montserrat', sans-serif;
         }}
-
-        /* Hidden YouTube Container */
-        .video-container {{ display: none; }}
         </style>
     """, unsafe_allow_html=True)
 
-    # Hidden YouTube Autoplay Hack
-    # Using 'mute=0' and 'autoplay=1' - the login click triggers the browser permission
+    # THE AUDIO TRICK
+    # This iframe uses a standard autoplay attribute that modern browsers allow 
+    # AFTER a user clicks a button (which she did to login).
     st.markdown(f"""
-        <div class="video-container">
-            <iframe width="0" height="0" 
-                src="https://www.youtube.com/embed/{video_id}?autoplay=1&loop=1&playlist={video_id}&mute=0" 
-                frameborder="0" allow="autoplay; encrypted-media">
-            </iframe>
-        </div>
+        <iframe src="https://www.youtube.com/embed/fXsovfOKUPM?autoplay=1&mute=0" 
+            allow="autoplay" style="display:none;"></iframe>
     """, unsafe_allow_html=True)
 
     st.snow()
