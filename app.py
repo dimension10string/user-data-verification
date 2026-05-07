@@ -2,78 +2,77 @@ import streamlit as st
 import time
 
 # --- Page Configuration ---
-st.set_page_config(page_title="System Access Portal", page_icon="💎", layout="wide")
+st.set_page_config(page_title="Authorized Access Only", page_icon="🔒", layout="wide")
 
-# --- Custom Styling ---
+# --- Custom Styling (The "Luxury Boutique" CSS) ---
 def local_css():
     st.markdown("""
         <style>
-        /* Import Pinyon Script & Montserrat */
+        /* Import Elegant Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Montserrat:wght@200;400&display=swap');
 
-        /* Background: Soft Tropical Morning */
+        /* Background: Soft Tropical Gradient */
         .stApp {
-            background: linear-gradient(160deg, #f8f9fa 0%, #d1f2f7 50%, #b2ebf2 100%);
+            background: radial-gradient(circle, #ffffff 0%, #e0f7fa 100%);
         }
 
-        /* Fade-in Animation */
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+        /* Hide Streamlit Clutter */
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        .stDeployButton {display:none;}
+
+        /* The Image: Rounded and Refined */
+        .styled-image {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 45%; 
+            border-radius: 200px 200px 20px 20px; 
+            box-shadow: 0px 20px 40px rgba(0,0,0,0.1);
+            border: 10px solid white;
+            margin-top: 40px;
         }
 
-        /* The Handwriting Header */
+        /* The Birthday Header: HUGE and Radiant */
         .birthday-text {
             font-family: 'Pinyon Script', cursive;
-            color: #005f73;
+            color: #00768e;
             text-align: center;
-            font-size: clamp(2000px, 50vw, 500px);
-            font-weight: 400;
-            margin-top: 10px;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        /* The Letter Box: Frosted Glass Effect */
-        .personal-wish {
-            font-family: 'Pinyon Script', cursive;
-            font-size: 50px;
-            text-align: center;
-            color: #264653;
-            line-height: 2;
-            margin: 0 auto;
-            max-width: 800px;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 60px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+            font-size: clamp(80px, 12vw, 150px);
+            line-height: 1;
+            margin-top: -30px;
+            text-shadow: 2px 2px 8px rgba(0,118,142,0.1);
             animation: fadeIn 3s ease-in-out;
         }
 
-        /* Styling Input Fields for the 'Boring' look */
-        .stTextInput input {
-            border-radius: 10px;
-            background-color: rgba(255,255,255,0.5);
+        /* The Letter Box: Minimalist & Clean */
+        .personal-wish {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            text-align: center;
+            color: #2c3e50;
+            line-height: 2;
+            margin: 0 auto;
+            max-width: 700px;
+            padding: 20px 40px 60px 40px;
+            animation: fadeIn 4s ease-in-out;
         }
 
-        /* Elegant CTA Button */
-        .stButton>button {
-            border-radius: 30px;
-            border: 1px solid #005f73;
-            background-color: transparent;
-            color: #005f73;
-            padding: 10px 40px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-size: 12px;
-            transition: 0.5s;
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
-        .stButton>button:hover {
-            background-color: #005f73;
-            color: white;
-            box-shadow: 0 5px 15px rgba(0,95,115,0.3);
+
+        /* Styling the Login Form to look boring/work-related */
+        .stForm {
+            border: none !important;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            max-width: 500px;
+            margin: 0 auto;
         }
         </style>
     """, unsafe_allow_html=True)
@@ -82,65 +81,55 @@ def local_css():
 if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 
-# --- Login Logic ---
+# --- Logic Flow ---
 if not st.session_state.authenticated:
-    st.title("🛡️ Family Cloud: Secure Node")
-    st.caption("Encryption Level: AES-256 | Status: Standby")
+    local_css()
+    # "The Unsuspecting Front"
+    st.markdown("<h2 style='text-align: center; font-family: Montserrat; color: #333;'>Internal Data Verification</h2>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; font-family: Montserrat; color: #666;'>Please authenticate to sync family records.</p>", unsafe_allow_html=True)
     
     with st.form("login_form"):
-        name = st.text_input("Verified User Name")
-        vacation = st.text_input("Access Token (Memory Location)")
-        submit = st.form_submit_button("UNLOCk SYSTEM")
+        u_name = st.text_input("User Identification")
+        u_token = st.text_input("Access Token (Vacation Memory)")
+        submitted = st.form_submit_button("Verify & Sync")
         
-        if submit:
-            if name.strip().lower() != "" and "cayman" in vacation.lower():
-                with st.spinner("Authorizing..."):
+        if submitted:
+            if u_name.strip() != "" and "cayman" in u_token.lower():
+                with st.spinner("Decrypting Archive..."):
                     time.sleep(2)
                     st.session_state.authenticated = True
                     st.rerun()
             else:
-                st.error("Invalid Token. Access Logged.")
+                st.error("Authentication Error: Token not recognized.")
 
 else:
-    # --- THE ELEGANT REVEAL ---
+    # --- THE LUXURY REVEAL ---
     local_css()
     
-    # This creates 3 waves of balloons with a slight pause between them
-    for i in range(3):
+    # Persistent Atmosphere
+    st.snow()
+    for _ in range(3):
         st.balloons()
-        time.sleep(0.5)
-        
-    # This adds a continuous shimmering effect that doesn't stop
-    st.snow() 
+        time.sleep(0.3)
+
+    # 1. Elegant Arched Image (Placeholder of Cayman, replace with yours if desired)
+    st.markdown('<img src="https://images.unsplash.com/photo-1544918877-460635b6d13e?q=80&w=2070&auto=format&fit=crop" class="styled-image">', unsafe_allow_html=True)
     
-    # Hero Image
-    st.image("https://images.unsplash.com/photo-1544918877-460635b6d13e?q=80&w=2070&auto=format&fit=crop", 
-             use_container_width=True)
+    # 2. Huge Calligraphy Name
+    st.markdown(f'<p class="birthday-text">Happy Birthday, [Wife\'s Name]</p>', unsafe_allow_html=True)
     
-    # The Pinyon Script Header
-    st.markdown('<p class="birthday-text">Happy Birthday, [Name]</p>', unsafe_allow_html=True)
-    
-    # The Main Message
+    # 3. The Letter
     st.markdown(
-        """
+        f"""
         <div class="personal-wish">
-            <span style="font-weight: 200; letter-spacing: 3px; font-size: 14px; text-transform: uppercase;">A Message from the Heart</span><br><br>
-            <i>My Dearest [Name],</i> <br><br>
-            There are some things that code cannot capture and words cannot fully describe. 
-            You are my greatest adventure and my favorite destination. <br><br>
-            Thank you for being the person who makes every ordinary day feel extraordinary. 
-            I built this little corner of the internet just for you, to remind you how deeply you are loved. <br><br>
-            <b>Today is all about you.</b>
+            <p style="letter-spacing: 5px; font-size: 11px; text-transform: uppercase; color: #00768e; margin-bottom: 20px;">For My Incredible Wife</p>
+            <i>My Dearest [Wife's Name],</i> <br><br>
+            I built this tiny corner of the internet just to remind you how deeply you are loved. 
+            You are the quality optimizer of my life, the heart of our home, and my favorite adventure. <br><br>
+            May your day be as beautiful and serene as a Cayman sunrise. <br><br>
+            <b>Your surprise is waiting for you in the kitchen.</b><br>
+            <span style="font-size: 16px;">Love, [Your Name]</span>
         </div>
         """, 
         unsafe_allow_html=True
     )
-    
-    # Hint for the Kitchen Helper
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; font-family: Montserrat; font-weight: 200; letter-spacing: 4px; color: #005f73;'>SYSTEM NOTIFICATION: A GIFT AWAITS IN THE KITCHEN ARCHIVE</p>", unsafe_allow_html=True)
-    
-    # Subtle logout button at the very bottom
-    if st.button("Close Secure Connection"):
-        st.session_state.authenticated = False
-        st.rerun()
