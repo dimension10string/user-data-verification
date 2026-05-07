@@ -2,46 +2,61 @@ import streamlit as st
 import time
 
 # --- Page Configuration ---
-st.set_page_config(page_title="System Verification Portal", page_icon="🌴", layout="wide")
+st.set_page_config(page_title="Secure Portal", page_icon="🌴", layout="wide")
 
-# --- Custom Styling for the "Cayman Reveal" ---
+# --- Custom Styling for the "Elegant Cayman" Look ---
 def local_css():
     st.markdown("""
         <style>
-        /* Main Background */
+        /* Import Elegant Handwriting Font */
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300&display=swap');
+
+        /* Main Background: Tropical Gradient */
         .stApp {
-            background: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%);
+            background: linear-gradient(135deg, #fdfcf0 0%, #a2dce7 100%);
         }
 
-        /* Birthday Header */
+        /* Birthday Header (The Handwriting) */
         .birthday-text {
-            font-family: 'Georgia', serif;
-            color: #00768e; /* Deep Cayman Teal */
+            font-family: 'Great Vibes', cursive;
+            color: #00768e;
             text-align: center;
-            font-size: clamp(40px, 8vw, 80px);
-            font-weight: bold;
+            font-size: clamp(60px, 10vw, 120px);
+            font-weight: 400;
             padding-top: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 0px;
         }
 
-        /* The Message Box */
+        /* The Letter Box */
         .personal-wish {
-            font-family: 'Helvetica Neue', sans-serif;
-            font-size: 22px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
             text-align: center;
             color: #2c3e50;
             line-height: 1.8;
-            margin: 20px auto;
-            max-width: 800px;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin: 0 auto;
+            max-width: 750px;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.5);
         }
 
-        /* Making buttons look cleaner */
+        /* Styling the 'Hint' text */
+        .stMarkdown p {
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        /* Clean Buttons */
         .stButton>button {
-            border-radius: 20px;
+            border-radius: 50px;
+            border: 2px solid #00768e;
+            background-color: transparent;
+            color: #00768e;
+            padding: 10px 30px;
+            transition: 0.3s;
+        }
+        .stButton>button:hover {
             background-color: #00768e;
             color: white;
         }
@@ -52,62 +67,58 @@ def local_css():
 if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 
-# --- Login Logic ---
+# --- Logic ---
 if not st.session_state.authenticated:
-    st.title("📂 User Profile Data Sync")
-    st.info("System Security Protocol: Active")
+    st.title("📂 Archive Retrieval System")
+    st.write("Authorized access only. Please verify your credentials.")
     
     with st.form("login_form"):
-        name = st.text_input("Full Name")
-        favorite_memory = st.text_input("Secret Access Code (Hint: Our favorite vacation spot?)")
-        submit = st.form_submit_button("Verify Identity & Sync Data")
+        name = st.text_input("Name")
+        favorite_memory = st.text_input("Access Key (Vacation Location)")
+        submit = st.form_submit_button("Access Files")
         
         if submit:
             if name.strip().lower() != "" and "cayman" in favorite_memory.lower():
-                with st.spinner("Decrypting personal data..."):
-                    time.sleep(2)
+                with st.spinner("Syncing..."):
+                    time.sleep(1.5)
                     st.session_state.authenticated = True
                     st.rerun()
             else:
-                st.error("Credential mismatch. Please try again.")
+                st.error("Access Denied.")
 
 else:
-    # --- THE REVEAL ---
+    # --- THE ELEGANT REVEAL ---
     local_css()
     st.balloons()
-    st.snow() # Adds a gentle shimmering effect
     
-    # 1. Top Image (A beautiful Cayman Beach or a photo of you two)
-    # You can replace this URL with a link to a photo of you two!
+    # Hero Image: A stunning Cayman view
     st.image("https://images.unsplash.com/photo-1544918877-460635b6d13e?q=80&w=2070&auto=format&fit=crop", 
-             caption="Our Happy Place", use_container_width=True)
+             use_container_width=True)
     
-    # 2. The Header
-    st.markdown('<p class="birthday-text">Happy Birthday, [Name]! ❤️</p>', unsafe_allow_html=True)
+    # The Handwriting Header
+    st.markdown('<p class="birthday-text">Happy Birthday, [Name]!</p>', unsafe_allow_html=True)
     
-    # 3. The Letter
+    # The Letter
     st.markdown(
         """
         <div class="personal-wish">
-            Dearest [Name], <br><br>
-            I wanted to create something as unique and wonderful as you are. 
-            You make every day feel like a sunset in the Caymans. <br><br>
-            You’ve always been the <b>Quality Optimizer</b> of my life, making every moment 
-            sweeter and every day easier just by being you. <br><br>
-            I love you more than words (or code) can say.<br>
-            <b>Here's to another year of us.</b>
+            <i>My Dearest [Name],</i> <br><br>
+            I wanted to build something as beautiful and intentional as the life we've created together. 
+            You are the heart of our home and the light in my every day. <br><br>
+            Thank you for being the most incredible partner. 
+            I hope this year brings you as much joy as you give to everyone around you. <br><br>
+            <b>I love you beyond measure.</b>
         </div>
         """, 
         unsafe_allow_html=True
     )
     
-    # 4. The Gift Reveal (Optional)
-    st.divider()
+    # Final Surprise Hint
+    st.markdown("<br><br>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1,2,1])
     with col2:
-        st.subheader("Your Birthday Surprise is waiting...")
-        st.write("Check the kitchen counter! 🎁")
+        st.markdown("<h3 style='text-align: center; color: #00768e; font-family: Montserrat;'>Now, go check the kitchen...</h3>", unsafe_allow_html=True)
     
-    if st.button("Secure Logout"):
+    if st.button("End Session"):
         st.session_state.authenticated = False
         st.rerun()
