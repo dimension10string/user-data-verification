@@ -6,73 +6,70 @@ st.set_page_config(page_title="Authorized Access Only", page_icon="🔒", layout
 
 # --- Custom Styling ---
 def local_css():
-    st.markdown("""
+    # Replace the URL below with your preferred background image (e.g., a beach or a photo of you two)
+    bg_img = "https://images.unsplash.com/photo-1544918877-460635b6d13e?q=80&w=2070&auto=format&fit=crop"
+    
+    st.markdown(f"""
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Montserrat:wght@200;400&display=swap');
 
-        .stApp {
-            background-color: #ffffff;
-        }
+        /* Full Page Background Image */
+        .stApp {{
+            background-image: url("{bg_img}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
 
         /* Hide Streamlit UI */
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        header {visibility: hidden;}
-        .stDeployButton {display:none;}
-        [data-testid="stHeader"] {background: rgba(0,0,0,0); border-bottom: none;}
+        #MainMenu {{visibility: hidden;}}
+        footer {{visibility: hidden;}}
+        header {{visibility: hidden;}}
+        .stDeployButton {{display:none;}}
 
-        /* Perfect Center Image Container */
-        .img-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            margin-top: -80px; /* Pulls image to the top */
-            overflow: hidden;
-        }
-
-        .styled-image {
-            width: 100vw !important;
-            max-width: 100vw !important;
-            height: auto;
-            border: none !important;
-            border-radius: 0px !important;
-            object-fit: cover;
-        }
+        /* Glassmorphism Container for the Content */
+        .glass-card {{
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px 20px;
+            margin-top: 50px;
+            text-align: center;
+        }}
 
         /* The Birthday Header */
-        .birthday-text {
+        .birthday-text {{
             font-family: 'Pinyon Script', cursive !important;
-            color: #00768e !important;
+            color: #ffffff !important; /* White looks better on a photo bg */
             text-align: center !important;
-            font-size: clamp(55px, 14vw, 100px) !important; 
+            font-size: clamp(50px, 12vw, 90px) !important; 
             line-height: 1.1 !important;
-            margin: 25px 0 !important;
-            padding: 0 15px;
-        }
+            margin: 20px 0 !important;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }}
 
         /* The Letter Box */
-        .personal-wish {
+        .personal-wish {{
             font-family: 'Montserrat', sans-serif !important;
-            font-size: clamp(16px, 4.5vw, 22px) !important;
+            font-size: clamp(16px, 4vw, 20px) !important;
             text-align: center !important;
-            color: #2c3e50 !important;
+            color: #ffffff !important;
             line-height: 1.7 !important;
             margin: 0 auto !important;
             max-width: 90% !important;
-            padding: 10px 15px 120px 15px !important;
-        }
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+        }}
 
-        /* Login Form */
-        .stForm {
-            border: 1px solid #f0f0f0 !important;
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
+        /* Login Form Styling */
+        .stForm {{
+            background: rgba(255, 255, 255, 0.9) !important;
+            padding: 30px;
+            border-radius: 15px;
             max-width: 400px;
-            margin: 0 auto;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
+            margin: 100px auto 0 auto;
+        }}
         </style>
     """, unsafe_allow_html=True)
 
@@ -81,12 +78,12 @@ if 'authenticated' not in st.session_state:
 
 if not st.session_state.authenticated:
     local_css()
-    st.markdown("<h3 style='text-align: center; font-family: Montserrat; color: #333; padding-top: 120px;'>Internal Data Verification</h3>", unsafe_allow_html=True)
-    
+    # Keep the login screen clean and focused
     with st.form("login_form"):
-        u_name = st.text_input("User Identification")
-        u_token = st.text_input("Security Token")
-        submitted = st.form_submit_button("Authenticate")
+        st.markdown("<h3 style='text-align: center; color: #333;'>Security Verification</h3>", unsafe_allow_html=True)
+        u_name = st.text_input("User ID")
+        u_token = st.text_input("Access Token")
+        submitted = st.form_submit_button("Authorize")
         
         if submitted:
             if u_name.strip() != "" and "cayman" in u_token.lower():
@@ -102,28 +99,19 @@ else:
     st.snow()
     st.balloons()
 
-    # 1. Image wrapped in a Flexbox container for perfect centering
-    st.markdown('''
-        <div class="img-container">
-            <img src="https://images.unsplash.com/photo-1544918877-460635b6d13e?q=80&w=2070&auto=format&fit=crop" class="styled-image">
+    # Using a transparent 'Glass' container to hold the text over the background image
+    st.markdown(f'''
+        <div class="glass-card">
+            <p style="letter-spacing: 4px; font-size: 11px; text-transform: uppercase; color: #ffffff; margin-bottom: 10px; opacity: 0.8;">A Dedicated Message</p>
+            <div class="birthday-text">Happy Birthday, [Wife's Name]</div>
+            <div class="personal-wish">
+                <br>
+                <i style="font-size: 24px;">My Dearest [Wife's Name],</i> <br><br>
+                I built this corner of the internet to remind you how deeply you are loved. 
+                You make every ordinary day feel extraordinary. <br><br>
+                May your day be as serene as a Cayman sunrise. <br><br>
+                <b style="color: #e0f7fa;">Your surprise is waiting for you in the kitchen.</b><br><br>
+                <span style="font-size: 32px; font-family: 'Pinyon Script';">Love, [Your Name]</span>
+            </div>
         </div>
     ''', unsafe_allow_html=True)
-    
-    # 2. Name
-    st.markdown(f'<div class="birthday-text">Happy Birthday, [Wife\'s Name]</div>', unsafe_allow_html=True)
-    
-    # 3. Letter
-    st.markdown(
-        f"""
-        <div class="personal-wish">
-            <p style="letter-spacing: 4px; font-size: 11px; text-transform: uppercase; color: #00768e; margin-bottom: 20px;">A Dedicated Message</p>
-            <i style="font-size: 24px;">My Dearest [Wife's Name],</i> <br><br>
-            I built this corner of the internet to remind you how deeply you are loved. 
-            You make every ordinary day feel extraordinary. <br><br>
-            May your day be as serene as a Cayman sunrise. <br><br>
-            <b style="color: #00768e;">Your surprise is waiting for you in the kitchen.</b><br><br>
-            <span style="font-size: 32px; font-family: 'Pinyon Script';">Love, [Your Name]</span>
-        </div>
-        """, 
-        unsafe_allow_html=True
-    )
