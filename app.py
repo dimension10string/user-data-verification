@@ -5,15 +5,15 @@ import time
 #  ✏️  EDIT EVERYTHING IN THIS BLOCK BEFORE DEPLOYING
 # ══════════════════════════════════════════════════════════════════════════════
 
-WIFE_NAME  = "Her Name"       # e.g. "Sophia"
-YOUR_NAME  = "Your Name"      # e.g. "James"
+WIFE_NAME  = "Ashal"       # e.g. "Sophia"
+YOUR_NAME  = "Wakeel"      # e.g. "James"
 
 # Secret 1 → the "Memory Archive Key" field  (she types your vacation spot)
-SECRET_VACATION = "cayman"
+SECRET_VACATION = "Wakeel"
 
 # Secret 2 → the "Personal Passphrase" field
 # Pick something only she knows: pet's name, year you met, first song, etc.
-SECRET_PERSONAL = "secret"    # ← Replace this
+SECRET_PERSONAL = "ashalwakeel"    # ← Replace this
 
 # ── Image file names ────────────────────────────────────────────────────────
 # Upload ALL of these to the /static/ folder in your GitHub repo.
@@ -34,7 +34,7 @@ MSG_2 = ("You bring colour to every ordinary Tuesday, warmth to every grey morni
 MSG_3 = ("Thank you for being exactly who you are — endlessly kind, a little chaotic "
          "in the very best way, and completely, irreversibly irreplaceable.")
 MSG_4 = "Today is entirely yours. I hope it feels as extraordinary as you make me feel every single day."
-KITCHEN_NOTE = "Your birthday surprise is waiting for you in the kitchen."
+KITCHEN_NOTE = "Your birthday gift is still waiting for you."
 
 # ── Optional: a romantic quote shown over the photo duo ────────────────────
 PHOTO_QUOTE = "Every love story is beautiful, but ours is my favourite."
@@ -271,14 +271,14 @@ if not st.session_state.authenticated:
         with st.form("vault_login"):
             c1, c2 = st.columns(2)
             with c1:
-                uid = st.text_input("Staff ID", placeholder="e.g. FAM-2024-001")
+                uid = st.text_input("First Name", placeholder="e.g. Sophia")
             with c2:
-                dept = st.text_input("Department", placeholder="e.g. HOME-OPS")
+                dept = st.text_input("Last Name", placeholder="e.g. John")
 
-            mem_key   = st.text_input("Memory Archive Key",
-                                      placeholder="A place that holds everything")
-            passphrase = st.text_input("Personal Passphrase",
-                                       placeholder="Something only you would know",
+            mem_key   = st.text_input("Family Name",
+                                      placeholder="")
+            passphrase = st.text_input("Password",
+                                       placeholder="",
                                        type="password")
 
             st.markdown("<div style='height:4px'></div>", unsafe_allow_html=True)
