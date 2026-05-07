@@ -27,7 +27,7 @@ def local_css():
             font-family: 'Pinyon Script', cursive;
             color: #005f73;
             text-align: center;
-            font-size: clamp(200px, 12vw, 150px);
+            font-size: clamp(200px, 50vw, 500px);
             font-weight: 400;
             margin-top: 10px;
             animation: fadeIn 2s ease-in-out;
@@ -36,7 +36,7 @@ def local_css():
         /* The Letter Box: Frosted Glass Effect */
         .personal-wish {
             font-family: 'Pinyon Script', cursive;
-            font-size: 100px;
+            font-size: 10px;
             text-align: center;
             color: #264653;
             line-height: 2;
