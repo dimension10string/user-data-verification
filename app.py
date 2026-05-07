@@ -5,15 +5,15 @@ import time
 #  ✏️  EDIT EVERYTHING IN THIS BLOCK BEFORE DEPLOYING
 # ══════════════════════════════════════════════════════════════════════════════
 
-WIFE_NAME  = "Her Name"       # e.g. "Sophia"
-YOUR_NAME  = "Your Name"      # e.g. "James"
+WIFE_NAME  = "Ashal"       # e.g. "Sophia"
+YOUR_NAME  = "Wakeel"      # e.g. "James"
 
 # Secret 1 → the "Memory Archive Key" field  (she types your vacation spot)
-SECRET_VACATION = "cayman"
+SECRET_VACATION = "Wakeel"
 
 # Secret 2 → the "Personal Passphrase" field
 # Pick something only she knows: pet's name, year you met, first song, etc.
-SECRET_PERSONAL = "secret"    # ← Replace this
+SECRET_PERSONAL = "ashalwakeel"    # ← Replace this
 
 # ── Image file names ────────────────────────────────────────────────────────
 # Upload ALL of these to your GitHub repo, then update the names below.
