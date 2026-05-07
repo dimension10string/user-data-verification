@@ -104,9 +104,16 @@ if not st.session_state.authenticated:
 else:
     # --- THE ELEGANT REVEAL ---
     local_css()
-    st.balloons()
     
-    # Beautiful Top Image (Cayman Sunset/Beach)
+    # This creates 3 waves of balloons with a slight pause between them
+    for i in range(3):
+        st.balloons()
+        time.sleep(0.5)
+        
+    # This adds a continuous shimmering effect that doesn't stop
+    st.snow() 
+    
+    # Hero Image
     st.image("https://images.unsplash.com/photo-1544918877-460635b6d13e?q=80&w=2070&auto=format&fit=crop", 
              use_container_width=True)
     
@@ -133,6 +140,7 @@ else:
     st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; font-family: Montserrat; font-weight: 200; letter-spacing: 4px; color: #005f73;'>SYSTEM NOTIFICATION: A GIFT AWAITS IN THE KITCHEN ARCHIVE</p>", unsafe_allow_html=True)
     
+    # Subtle logout button at the very bottom
     if st.button("Close Secure Connection"):
         st.session_state.authenticated = False
         st.rerun()
