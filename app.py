@@ -11,7 +11,7 @@ if 'authenticated' not in st.session_state:
 # --- Logic Flow ---
 
 if not st.session_state.authenticated:
-    # 1. THE BORING LOGIN PAGE (Plain White)
+    # 1. THE BORING LOGIN PAGE
     st.markdown("""
         <style>
         .stApp { background-color: white !important; }
@@ -22,11 +22,10 @@ if not st.session_state.authenticated:
     """, unsafe_allow_html=True)
     
     st.markdown("<h3 style='text-align: center; font-family: Arial; color: #333; padding-top: 100px;'>Family Cloud: Archive Sync</h3>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: #666;'>Enter credentials to proceed to data visualization.</p>", unsafe_allow_html=True)
 
     with st.form("login_form"):
         u_name = st.text_input("User ID")
-        u_token = st.text_input("Access Token (Memory)")
+        u_token = st.text_input("Access Token")
         submitted = st.form_submit_button("Verify Identity")
         
         if submitted:
@@ -39,33 +38,28 @@ if not st.session_state.authenticated:
                 st.error("Invalid Credentials.")
 
 else:
-    # 2. THE REVEAL PAGE (Background + Picture + Large Font)
+    # 2. THE REVEAL PAGE
     
-    # SETUP: Replace these two URLs
-    # bg_url: The full page background (Beach/Ocean)
-    # main_pic_url: The specific photo you want to show her (You two/Her)
-    bg_url = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop"
-    main_pic_url = "https://images.unsplash.com/photo-1544918877-460635b6d13e?q=80&w=2070&auto=format&fit=crop"
+    # These must match your uploaded GitHub filenames exactly!
+    bg_filename = "beach_bg.jpg" 
+    main_pic_filename = "us.jpg" 
 
     st.markdown(f"""
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Montserrat:wght@200;400&display=swap');
 
-        /* Background image only triggers AFTER login */
         .stApp {{
-            background-image: url("{bg_url}");
+            background-image: url("app/static/{bg_filename}");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }}
 
-        /* Hide Streamlit Clutter */
         #MainMenu {{visibility: hidden;}}
         footer {{visibility: hidden;}}
         header {{visibility: hidden;}}
         .stDeployButton {{display:none;}}
 
-        /* Full Width Main Picture (Centered, No Rounding) */
         .img-container {{
             display: flex;
             justify-content: center;
@@ -79,7 +73,6 @@ else:
             border: none;
         }}
 
-        /* Birthday Header (Large & Responsive) */
         .birthday-text {{
             font-family: 'Pinyon Script', cursive !important;
             color: white !important;
@@ -90,12 +83,10 @@ else:
             text-shadow: 2px 4px 10px rgba(0,0,0,0.4);
         }}
 
-        /* Glass Letter Box */
         .glass-card {{
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-radius: 0px;
             padding: 40px 20px;
             margin: 20px 0;
             color: white;
@@ -105,14 +96,13 @@ else:
         </style>
     """, unsafe_allow_html=True)
 
-    # Effects
     st.snow()
     st.balloons()
 
     # Layout
     st.markdown(f'''
         <div class="img-container">
-            <img src="{main_pic_url}" class="hero-image">
+            <img src="app/static/{main_pic_filename}" class="hero-image">
         </div>
         <div class="birthday-text">Happy Birthday, [Wife's Name]</div>
         <div class="glass-card">
